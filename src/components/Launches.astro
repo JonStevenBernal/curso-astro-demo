@@ -1,0 +1,59 @@
+---
+
+import { getLatestLaunches } from '../services/spacex'
+
+const launches = await getLatestLaunches()
+
+// podemos ejecutar el js o ts que queramos
+// import { type APISpaceXResponse } from '../types/api'
+import CardLaunch from './CardLaunch.astro';
+// const res = await fetch('https://api.spacexdata.com/v5/launches/query', {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//         query: {},
+//         options: {
+//             sort: {
+//                 date_unix: 'asc'
+//             },
+//             limit: 12,
+//         }
+//     })
+// })
+// const data =  JSON.stringify(await res.json())
+
+// const { docs : launches } = (await res.json()) as APISpaceXResponse
+
+// console.log(launches)
+
+---
+
+<!-- Forma de hacer una iteracion de una lista de elementos, se ve como jsx pero no es jsx -->
+<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {
+        launches.map(({id, links, details, flight_number: flightNumber, success}) => (
+            // <article>
+            //     <img src={launch.links.patch.small} alt="">
+            //     <h2>Launch #{launch.id}</h2>
+            // </article>
+            // Forma sin simplificar
+            // <CardLaunch
+            //     id={launch.id}
+            //     img={launch.links.patch.small}
+            //     details={launch.details}
+            //     flightNumber={launch.flight_number}
+            //     success={launch.success}
+            // />
+
+            <CardLaunch
+                id={id}
+                img={links.patch.small}
+                details={details}
+                flightNumber={flightNumber}
+                success={success}
+            />
+        ))
+    }
+</div>
